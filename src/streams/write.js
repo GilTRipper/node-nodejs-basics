@@ -10,7 +10,7 @@ const write = async () => {
     );
     await pipeline(process.stdin, writeStream);
   } catch (error) {
-    throw new Error(error);
+    throw new Error('Stream operation failed');
   }
 };
 

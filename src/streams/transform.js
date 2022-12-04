@@ -4,27 +4,31 @@ import { Transform } from 'stream';
 import { pipeline } from 'stream/promises';
 
 const transform = async () => {
-  const transformStream = fs.createWriteStream(
-    'src/streams/files/fileToWrite.txt',
-    { encoding: 'utf-8' }
-  );
+  try {
+    const transformStream = fs.createWriteStream(
+      'src/streams/files/fileToWrite.txt',
+      { encoding: 'utf-8' }
+    );
 
-  const reverse = new Transform({
-    transform(chunk, _, callback) {
-      try {
-        const resultString = chunk
-          .toString('utf-8')
-          .split('')
-          .reverse()
-          .join('');
-        callback(null, resultString);
-      } catch (e) {
-        callback(e);
-      }
-    },
-  });
+    const reverse = new Transform({
+      transform(chunk, _, callback) {
+        try {
+          const resultString = chunk
+            .toString('utf-8')
+            .split('')
+            .reverse()
+            .join('');
+          callback(null, resultString);
+        } catch (e) {
+          callback(e);
+        }
+      },
+    });
 
-  await pipeline(process.stdin, reverse, transformStream);
+    await pipeline(process.stdin, reverse, transformStream);
+  } catch (error) {
+    throw new Error('Stream operation failed');
+  }
 };
 
 await transform();
