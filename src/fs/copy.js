@@ -1,11 +1,17 @@
 import fs from 'fs/promises';
+import { join } from 'path';
+import { getDirname } from '../utils.js';
+
+const __dirname = getDirname(import.meta.url);
 
 const copy = async () => {
+  const sourceFilesDir = join(__dirname, 'files');
+  const copyFilesDir = join(__dirname, 'filesCopy');
   try {
-    const files = await fs.readdir('src/fs/files');
-    await fs.mkdir('src/fs/filesCopy');
+    const files = await fs.readdir(sourceFilesDir);
+    await fs.mkdir(copyFilesDir);
     for (let file of files) {
-      await fs.copyFile(`src/fs/files/` + file, 'src/fs/filesCopy/' + file);
+      await fs.copyFile(join(sourceFilesDir, file), join(copyFilesDir, file));
     }
   } catch (e) {
     throw new Error('FS operation failed');

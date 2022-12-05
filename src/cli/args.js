@@ -1,4 +1,4 @@
-import { argv } from 'node:process';
+import { argv } from 'process';
 
 const parseArgs = async () => {
   const startIndex = argv.findIndex((item) => item.startsWith('--'));

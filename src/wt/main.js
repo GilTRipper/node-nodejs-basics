@@ -1,9 +1,15 @@
 import { cpus } from 'os';
+import { join } from 'path';
 import { Worker } from 'worker_threads';
+import { getDirname } from '../utils.js';
 
-const startWorker = (num) =>
+const __dirname = getDirname(import.meta.url);
+
+const modulePath = join(__dirname, 'worker.js');
+
+const startWorker = (workerData) =>
   new Promise((resolve, reject) => {
-    const worker = new Worker('./src/wt/worker.js', { workerData: num });
+    const worker = new Worker(modulePath, { workerData });
     worker.on('message', resolve);
     worker.on('error', reject);
   });

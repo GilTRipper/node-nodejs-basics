@@ -3,12 +3,15 @@ import fs from 'fs';
 import { Transform } from 'stream';
 import { pipeline } from 'stream/promises';
 
+import { getDirname } from '../utils.js';
+import { join } from 'path';
+
+const __dirname = getDirname(import.meta.url);
+
 const transform = async () => {
+  const path = join(__dirname, 'files', 'filesToWrite.txt');
   try {
-    const transformStream = fs.createWriteStream(
-      'src/streams/files/fileToWrite.txt',
-      { encoding: 'utf-8' }
-    );
+    const transformStream = fs.createWriteStream(path, { encoding: 'utf-8' });
 
     const reverse = new Transform({
       transform(chunk, _, callback) {

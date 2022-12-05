@@ -1,9 +1,14 @@
-import crypto from 'node:crypto';
+import crypto from 'crypto';
 import fs from 'fs/promises';
+import { join } from 'path';
+import { getDirname } from '../utils.js';
+
+const __dirname = getDirname(import.meta.url);
+
 const calculateHash = async () => {
   try {
     const data = await fs.readFile(
-      'src/hash/files/fileToCalculateHashFor.txt',
+      join(__dirname, 'files', 'fileToCalculateHashFor.txt'),
       { encoding: 'utf-8' }
     );
     const hash = crypto.createHash('sha256').update(data);
