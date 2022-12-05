@@ -1,5 +1,12 @@
+import cp from 'child_process';
+import path from 'path';
+import { getDirname } from '../utils.js';
+
+const __dirname = getDirname(import.meta.url);
+
 const spawnChildProcess = async (args) => {
-    // Write your code here
+  const modulePath = path.join(__dirname, 'files', 'script.js');
+  cp.fork(modulePath, args);
 };
 
-spawnChildProcess();
+spawnChildProcess(['first', 'second', 'third']);
